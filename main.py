@@ -30,7 +30,7 @@ def add_purchase():
             print("Invalid amount. Please enter a number.")
     category = input("Enter a category for this purchase: ")
     purchase = {"item": item, "cost": cost, "category": category}
-    print(f"Purchase added: {item} - ${cost:.2f} ({category})")
+    print(f"Purchase added: {item} - {format_currency(cost)} ({category})")
     return purchase
 
 def update_remaining_budget(budget, purchase_cost):
@@ -40,10 +40,22 @@ def update_remaining_budget(budget, purchase_cost):
     return remaining
 
 def main():
-    print("Welcome to StyleSaver")
+    print("Welcome to StyleSaver\n")
     budget = set_monthly_budget()
-    print(f"Budget stored in main: {format_currency(budget)}")
+    print(f"Budget stored in main: {format_currency(budget)}\n")
+
+    
+    while True:
+        add_more = input("Do you want to add a purchase? (y/n): ").lower()
+        if add_more != 'y':
+            break
+
+        purchase = add_purchase()
+        budget = update_remaining_budget(budget, purchase["cost"])
+        
+
+    print(f"Final remaining budget: {format_currency(budget)}")
+    print("Thank you for using StyleSaver!")
 
 if __name__ == "__main__":
     main()
-
