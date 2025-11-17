@@ -1,3 +1,7 @@
+def format_currency(amount):
+    """Return a number formatted as standard currency."""
+    return f"${amount:.2f}"
+
 def set_monthly_budget():
     while True:
         try:
@@ -7,7 +11,7 @@ def set_monthly_budget():
                 print("Budget cannot be negative. Please enter a valid number.")
                 continue
 
-            print(f"Your monthly budget is set to: ${budget:.2f}")
+            print(f"Your monthly budget is set to: {format_currency(budget)}")
             return budget
 
         except ValueError:
@@ -16,7 +20,7 @@ def set_monthly_budget():
 def main():
     print("Welcome to StyleSaver")
     budget = set_monthly_budget()
-    print(f"Budget stored in main: ${budget:.2f}")
+    print(f"Budget stored in main: {format_currency(budget)}")
 
 if __name__ == "__main__":
     main()
