@@ -17,6 +17,22 @@ def set_monthly_budget():
         except ValueError:
             print("Invalid input. Please enter a number.")
 
+def add_purchase():
+    item = input("Enter the item you purchased: ")
+    while True:
+        try:
+            cost = float(input("Enter the cost of this item: $"))
+            if cost < 0:
+                print("Cost cannot be negative.")
+                continue
+            break
+        except ValueError:
+            print("Invalid amount. Please enter a number.")
+    category = input("Enter a category for this purchase: ")
+    purchase = {"item": item, "cost": cost, "category": category}
+    print(f"Purchase added: {item} - ${cost:.2f} ({category})")
+    return purchase
+
 def main():
     print("Welcome to StyleSaver")
     budget = set_monthly_budget()
@@ -24,3 +40,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
