@@ -33,6 +33,12 @@ def add_purchase():
     print(f"Purchase added: {item} - ${cost:.2f} ({category})")
     return purchase
 
+def update_remaining_budget(budget, purchase_cost):
+    """Subtract purchase cost from remaining budget."""
+    remaining = budget - purchase_cost
+    print(f"Remaining budget: {format_currency(remaining)}")
+    return remaining
+
 def main():
     print("Welcome to StyleSaver")
     budget = set_monthly_budget()
