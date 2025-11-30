@@ -39,23 +39,57 @@ def update_remaining_budget(budget, purchase_cost):
     print(f"Remaining budget: {format_currency(remaining)}")
     return remaining
 
+def show_summary(purchases, starting_budget):
+    total_spent = sum(p["cost"] for p in purchases)
+    remaining = starting_budget - total_spent
+
+    print("\n----- Spending Summary -----")
+    print(f"Total Spent: {format_currency(total_spent)}")
+    print(f"Remaining Budget: {format_currency(remaining)}")
+
+    print("\nSpending by Category:")
+    categories = {}
+    for p in purchases:
+        categories[p["category"]] = categories.get(p["category"], 0) + p["cost"]
+
+    for category, amount in categories.items():
+        print(f" - {category}: {format_currency(amount)}")
+
+    return remaining
+
+def ai_recommendation(remaining):
+    if remaining < 20:
+        return "⚠️ Warning: Your budget is almost gone. Avoid extra spending!"
+    elif remaining < 50:
+        return "Be careful — your budget is getting low."
+    else:
+        return "You're managing your budget well!"
+
 def main():
     print("Welcome to StyleSaver\n")
+    purchases = []  
+
     budget = set_monthly_budget()
+    starting_budget = budget
     print(f"Budget stored in main: {format_currency(budget)}\n")
 
-    
     while True:
         add_more = input("Do you want to add a purchase? (y/n): ").lower()
         if add_more != 'y':
             break
 
         purchase = add_purchase()
-        budget = update_remaining_budget(budget, purchase["cost"])
-        
+        purchases.append(purchase)
 
-    print(f"Final remaining budget: {format_currency(budget)}")
-    print("Thank you for using StyleSaver!")
+        budget = update_remaining_budget(budget, purchase["cost"])
+        print()
+
+    final_remaining = show_summary(purchases, starting_budget)
+    print("\nAI Recommendation:", ai_recommendation(final_remaining))
+
+    print("\nThank you for using StyleSaver!")
 
 if __name__ == "__main__":
     main()
+
+
