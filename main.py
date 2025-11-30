@@ -2,6 +2,7 @@ def format_currency(amount):
     """Return a number formatted as standard currency."""
     return f"${amount:.2f}"
 
+
 def set_monthly_budget():
     while True:
         try:
@@ -16,6 +17,7 @@ def set_monthly_budget():
 
         except ValueError:
             print("Invalid input. Please enter a number.")
+
 
 def add_purchase():
     item = input("Enter the item you purchased: ")
@@ -33,17 +35,19 @@ def add_purchase():
     print(f"Purchase added: {item} - {format_currency(cost)} ({category})")
     return purchase
 
+
 def update_remaining_budget(budget, purchase_cost):
     """Subtract purchase cost from remaining budget."""
     remaining = budget - purchase_cost
     print(f"Remaining budget: {format_currency(remaining)}")
     return remaining
 
+
 def show_summary(purchases, starting_budget):
     total_spent = sum(p["cost"] for p in purchases)
     remaining = starting_budget - total_spent
 
-    print("\n----- Spending Summary -----")
+    print("\n Spending Summary ")
     print(f"Total Spent: {format_currency(total_spent)}")
     print(f"Remaining Budget: {format_currency(remaining)}")
 
@@ -57,6 +61,42 @@ def show_summary(purchases, starting_budget):
 
     return remaining
 
+def show_spending_log(purchases):
+    print("\n Itemized Spending Log ")
+    if not purchases:
+        print("No purchases recorded yet.")
+        return
+
+    for p in purchases:
+        print(f"- {p['item']} : {format_currency(p['cost'])} ({p['category']})")
+
+    total = sum(p["cost"] for p in purchases)
+    print(f"\nTotal Spent: {format_currency(total)}")
+
+def fashion_recommendations(remaining):
+    print("\n AI Fashion Recommendations ")
+
+    if remaining < 20:
+        print("Your budget is very low. Try:")
+        print("- Thrift stores")
+        print("- Clearance racks")
+    elif remaining < 50:
+        print("Affordable options:")
+        print("- Basic tees from H&M or Target")
+        print("- Casual shoes on sale")
+    elif remaining < 100:
+        print("You can upgrade your style:")
+        print("- Quality sneakers")
+        print("- Stylish hoodies")
+    else:
+        print("You have great flexibility! Consider:")
+        print("- Premium clothing pieces")
+        print("- Branded shoes")
+        print("- Quality accessories")
+
+    print(f"\nRemaining Budget: {format_currency(remaining)}")
+
+
 def ai_recommendation(remaining):
     if remaining < 20:
         return "⚠️ Warning: Your budget is almost gone. Avoid extra spending!"
@@ -67,7 +107,7 @@ def ai_recommendation(remaining):
 
 def main():
     print("Welcome to StyleSaver\n")
-    purchases = []  
+    purchases = []
 
     budget = set_monthly_budget()
     starting_budget = budget
@@ -85,11 +125,14 @@ def main():
         print()
 
     final_remaining = show_summary(purchases, starting_budget)
+
+   
+    show_spending_log(purchases)
+    fashion_recommendations(final_remaining)
+
     print("\nAI Recommendation:", ai_recommendation(final_remaining))
 
     print("\nThank you for using StyleSaver!")
 
 if __name__ == "__main__":
     main()
-
-
